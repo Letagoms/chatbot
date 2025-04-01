@@ -13,7 +13,7 @@ namespace Part1
     {
         public void playAudio()
         {
-            string audioPath = "C:\\Users\\RC_Student_lab\\source\\repos\\Part1\\myvoice.wav";
+            string audioPath = "C:\\Users\\RC_Student_lab\\source\\repos\\Part1\\Voice.wav";
 
             if (!System.IO.File.Exists(audioPath))
             {

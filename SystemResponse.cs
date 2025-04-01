@@ -43,6 +43,7 @@ namespace Part1
 
         public void filered_words()
         {
+            //add filtered words in the collection type hashet additionally with the ignore case
             filteredWords = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
         {
             "tell", "me", "please", "can", "you", "could", "would",
@@ -77,12 +78,12 @@ namespace Part1
                 //if the words are not in the ignore list then that's when the process is allowed to proceed
                 if (!filteredWords.Contains(trimmed_word))
                 {
-                    //once we're here we now begin to check if the important word is in the dictionary
+                    //once we're here we now begin to check if the important word is in the hashset
                     importantWords.Add(trimmed_word);
                 }
             }
 
-            //now lets continue checking if the word is in our dictionary
+            //now lets continue checking if the word is in our hashet
             foreach (string word in importantWords)
             {
                 if (key_words_in_dictionary.ContainsKey(word))

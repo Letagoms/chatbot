@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
 using System.IO;
-using System.Runtime.Remoting.Messaging;
+
 
 namespace Part1
 {
@@ -37,7 +37,13 @@ namespace Part1
             }
         }
 
-        //private static for what reason?
+
+/*bigger picture:
+Preparing the Image Size
+The program calculates how big the ASCII version should be based on:
+The current width of your console window(we don't want it too wide)
+The original image's proportions (to avoid stretching)
+*/
         private static string ConvertToAscii(Image image)
         {
             //adjusting the size
@@ -89,12 +95,10 @@ If not found: Shows an error message and stops
 
 If found: Proceeds to process the image
 
+bigger picture:
 Preparing the Image Size
-
 The program calculates how big the ASCII version should be based on:
-
 The current width of your console window (we don't want it too wide)
-
 The original image's proportions (to avoid stretching)
 
 It makes the ASCII version smaller than the original because:
