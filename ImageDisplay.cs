@@ -75,7 +75,7 @@ The original image's proportions (to avoid stretching)
                     //append the ASCII character to the string builder
                     asciiArt.Append(asciiChars[index]);
                 }
-
+                
                 asciiArt.Append(Environment.NewLine);
             }
             return asciiArt.ToString();

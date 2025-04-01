@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Forms;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
+using System.Windows.Forms; 
 
 namespace Part1
 {
@@ -62,7 +61,7 @@ namespace Part1
             //beginning a loop condition
             while (true)
             {
-                //converts the user's name to green
+                //converts the user's name to green throughout the chat
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine();
                 Console.Write(User);
@@ -71,6 +70,8 @@ namespace Part1
 
                 //creating a user input variable and read what's inside it
                 string userInput = Console.ReadLine();
+
+                /*exit plan*/
 
                 //if the user input is equal to exit then exit the app (ignore case is applied)
                 if (userInput.Equals("exit", StringComparison.OrdinalIgnoreCase))
@@ -85,8 +86,11 @@ namespace Part1
                     break;
                 }
 
-                //store the bot response. call the process Question.. stopped here
+
+                //using a string to store the bot response which will process the question according to the condition set in the previous class. 
+                //the user input which will be scanned is called
                 string botResponse = response.process_Question(userInput);
+                //note: exception is handled in the System responds class so i'm saying that if that exception message matches then set the color to red. why? because we convert the color from return which is where it's handled.
                 if (botResponse == "ask something relevant to the topics mentioned above")
                 {
                     Console.ForegroundColor = ConsoleColor.Blue;
@@ -95,10 +99,12 @@ namespace Part1
                     Console.Write(botResponse);
                     Console.ResetColor();
                 }
+                //however if that condition does not match output the response on the bot. 
+                //reminder: the question is processed and properly handled in the other class. keeping the color blue. this will loop throughout
                 else
                 {
                     Console.ForegroundColor = ConsoleColor.Blue;
-                    Console.Write($"CyberSurfer: ");
+                    Console.Write("CyberSurfer: ");
                     Console.ForegroundColor = ConsoleColor.White;
                     Console.Write(botResponse);
                 }
