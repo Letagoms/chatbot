@@ -11,7 +11,7 @@ namespace Part1
 {
     public class ChatBot
     {
-        [STAThread]
+        
         private static void Main(string[] args)
         {
             voiceGreeting voicegreeting = new voiceGreeting();
@@ -26,9 +26,6 @@ namespace Part1
             ChatBegins.introduction();
 
           
-
-                //fix safety browsing
-            
         }
     }
 }

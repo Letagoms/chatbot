@@ -57,10 +57,10 @@ namespace Part1
 
         public string process_Question(string user_Question)
         {
-            /* ENGLISH LOGIC FOR WORD PROCESSING:
+            /* what i'm attempting to achieve:
            1. Take the question and split it into separate words
            2. For each word in the question:
-              a. Clean it by removing ?,!,. etc.
+              a. Clean it by removing ?,! etc
               b. If it's NOT in our ignore list, keep it
            3. Now check each kept word against our knowledge base
               a. If we find a match, return that answer immediately
@@ -71,11 +71,12 @@ namespace Part1
             List<string> importantWords = new List<string>();
             string[] questions_asked_by_user = user_Question.Split(' ');
 
+            //trim each word
             foreach (string word in questions_asked_by_user)
             {
                 string trimmed_word = word.Trim();
 
-                //if the words are not in the ignore list then that's when the process is allowed to proceed
+                //if the words are not in the ignore list then that's when the process is allowed to proceed. we want important words. ignore list isn't important
                 if (!filteredWords.Contains(trimmed_word))
                 {
                     //once we're here we now begin to check if the important word is in the hashset
@@ -86,14 +87,17 @@ namespace Part1
             //now lets continue checking if the word is in our hashet
             foreach (string word in importantWords)
             {
+                //if the keyword from the dictionary is included in the word typed.
                 if (key_words_in_dictionary.ContainsKey(word))
                 {
+                    //then the output associated with the keyword should be returned
                     return key_words_in_dictionary[word];
                 }
             }
+            //error handling
             Console.ForegroundColor = ConsoleColor.Red;
             return "ask something relevant to the topics mentioned above";
-
+            
         }
     }
 }

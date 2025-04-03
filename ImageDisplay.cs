@@ -51,14 +51,23 @@ The original image's proportions (to avoid stretching)
             int newWidth = (int)(consoleWidth * 0.75);
             int newHeight = (int)(image.Height * (newWidth / (double)image.Width) * 0.5);
 
-            //to convert to ASCII, first convert to bitmap
+ /*Console characters are much larger than image pixels
+
+Each image pixel will become one text character
+Console characters are taller than they are wide, so we adjust height accordingly
+Converting Colors to Brightness
+For each pixel in the resized image:
+The program looks at its red, green, and blue (RGB) values
+It calculates a "brightness" score using a special formula that accounts for:
+Human eye sensitivity*/
+
+//to convert to ASCII, first convert to bitmap
             Bitmap resizedBitmap = new Bitmap(image, new Size(newWidth, newHeight));
-            //use a string builder to store and construct the ASCII art
+            
             StringBuilder asciiArt = new StringBuilder();
 
             //ASCII characters
             string asciiChars = "@%#*+=-:. ";
-
             //iterate through each pixel in the image(bitmap)
             for (int y = 0; y < resizedBitmap.Height; y++)
             {
@@ -66,13 +75,16 @@ The original image's proportions (to avoid stretching)
                 {
                     //get the color of the current pixel
                     Color pixelcolor = resizedBitmap.GetPixel(x, y);
-                    //convert the pixel color
-                    int grayValue = (int)(pixelcolor.R * 0.3 +
-                                          pixelcolor.G * 0.59 +
-                                          pixelcolor.B * 0.11);
-                    //map the gray value to an ASCII character?
+
+                    // Convert color to grayscale using human perception weights
+                    // (Our eyes are more sensitive to green, hence higher weight)
+                    int grayValue = (int)(pixelcolor.R * 0.3 + //red contributes 30%
+                                          pixelcolor.G * 0.59 + //green contributes to 59% 
+                                          pixelcolor.B * 0.11); //blue contributes 11%
+
+                    
                     int index = grayValue * (asciiChars.Length - 1) / 255;
-                    //append the ASCII character to the string builder
+                    
                     asciiArt.Append(asciiChars[index]);
                 }
                 
