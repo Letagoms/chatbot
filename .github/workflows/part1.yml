@@ -1,0 +1,41 @@
+
+    name: .NET Framework CI
+
+    on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:dotnet-version: '4.7.2'
+
+- name: Restore dependencies
+  run: nuget restore
+
+- name: Build solution
+  run: msbuild /p:Configuration=Release
+
+- name: Run tests
+  run: |
+    vstest.console.exe **\*test*.dll
+  continue-on-error: true
+
+- name: Check code formatting
+  run: dotnet format --check
+  continue-on-error: true
+
+- name: Report build status
+  if: failure()
+  run: echo "Build failed"
+  if: success()
+  run: echo "Build succeeded"
