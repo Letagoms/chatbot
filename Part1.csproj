@@ -46,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="chatbegins.cs" />
+    <Compile Include="extraEffects.cs" />
     <Compile Include="ImageDisplay.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

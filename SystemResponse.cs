@@ -6,98 +6,185 @@ using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
+using static System.Windows.Forms.LinkLabel;
+using System.Windows.Forms;
 
 namespace Part1
 {
     public class SystemResponse
     {
-        private HashSet<string> filteredWords;
-
-        private Dictionary<string, string> key_words_in_dictionary = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+        //filtered words array list
+        //key words in dictionary array list
+        private System.Collections.ArrayList filteredWords;
+        private System.Collections.ArrayList keyWordsInArray = new System.Collections.ArrayList();
 
         public void Key()
         {
-            // Password - all your original sentences combined
-            key_words_in_dictionary.Add("Password",
+            // Add key-value pairs as objects containing both key and value
+
+            //Password response
+            keyWordsInArray.Add(new KeyValue("Password",
                 "Password security is the practice of securing a password from unauthorized access. " +
                 "You can create a strong password by using a combination of letters, numbers and special characters, and by avoiding common words and phrases. " +
                 "You can protect your password by keeping it secure and not sharing it with anyone. " +
-                "If your password is compromised, change it immediately and report it to the relevant authorities.");
+                "If your password is compromised, change it immediately and report it to the relevant authorities."));
 
-            // Phishing - all your original sentences combined
-            key_words_in_dictionary.Add("Phishing",
+            //phishing response
+            keyWordsInArray.Add(new KeyValue("Phishing",
                 "Phishing is the fraudulent attempt to obtain sensitive information such as usernames, passwords and credit card details. " +
                 "You can identify phishing by looking out for suspicious emails, websites and requests for sensitive information. " +
                 "You can protect yourself from phishing by being cautious of suspicious emails and websites, and by not sharing sensitive information online. " +
-                "If you receive a phishing email, do not click on any links or download attachments. Report it to your email provider and delete it immediately.");
+                "If you receive a phishing email, do not click on any links or download attachments. Report it to your email provider and delete it immediately."));
 
-            // Safety browsing - all your original sentences combined
-            key_words_in_dictionary.Add("safety",
+            //password safety response
+            keyWordsInArray.Add(new KeyValue("password safety",
                 "You can stay safe online by using secure passwords, keeping your software up to date, and being cautious of suspicious emails and websites. " +
                 "You can protect your personal information online by being cautious of what you share online, and by using privacy settings on social media platforms. " +
                 "If you encounter a suspicious website, do not enter any personal information. Report it to the relevant authorities and leave the website immediately. " +
-                "Safety browsing is the practice of ensuring a safe and secure online browsing experience.");
+                "Safety browsing is the practice of ensuring a safe and secure online browsing experience."));
         }
 
         public void filered_words()
         {
-            //add filtered words in the collection type hashet additionally with the ignore case
-            filteredWords = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
-        {
-            "tell", "me", "please", "can", "you", "could", "would",
-            "how", "what", "when", "where", "why", "who", "which",
-            "give", "show", "explain", "describe", "provide", "list",
-            "the", "a", "an", "is", "are", "do", "does", "should",
-            "will", "might", "may", "must", "have", "has", "had",
-            "need", "want", "like", "thanks", "thank", "hello", "hi", "hey"
-        };
+            // Add filtered words to ArrayList
+            filteredWords = new System.Collections.ArrayList()
+            {
+                "tell", "me", "please", "can", "you", "could", "would",
+                "how", "what", "when", "where", "why", "who", "which",
+                "give", "show", "explain", "describe", "provide", "list",
+                "the", "a", "an", "is", "are", "do", "does", "should",
+                "will", "might", "may", "must", "have", "has", "had",
+                "need", "want", "like", "thanks", "thank", "hello", "hi", "hey"
+            };
         }
+        //Questions: new Key Value, trim function, 
 
         public string process_Question(string user_Question)
         {
-            /* what i'm attempting to achieve:
-           1. Take the question and split it into separate words
-           2. For each word in the question:
-              a. Clean it by removing ?,! etc
-              b. If it's NOT in our ignore list, keep it
-           3. Now check each kept word against our knowledge base
-              a. If we find a match, return that answer immediately
-           4. If no matches found, return a default message
-        */
 
-            //Important words are key words similar to the dictionary. so if it's not in the filter or ignore list then this is an important word to take note of.
             List<string> importantWords = new List<string>();
+
+            //1. Split the question into separate words
+            //Example: "Can you explain Phishing?" → ["Can", "you", "explain", "Phishing?"]
+
             string[] questions_asked_by_user = user_Question.Split(' ');
 
-            //trim each word
+            //2. from splitting the input now it Cleans each word (removes spaces and punctuation) "Phishing?" becomes "Phishing"
             foreach (string word in questions_asked_by_user)
             {
+                //trim meaning ignoring any punctuations and whitespaces
                 string trimmed_word = word.Trim();
 
-                //if the words are not in the ignore list then that's when the process is allowed to proceed. we want important words. ignore list isn't important
-                if (!filteredWords.Contains(trimmed_word))
+                //3.  Check if the word should be ignored
+                //example: if "can" is in filtered words 
+                bool isFiltered = false;
+                
+                foreach (string filteredWord in filteredWords)
                 {
-                    //once we're here we now begin to check if the important word is in the hashset
-                    importantWords.Add(trimmed_word);
+                    if (string.Equals(trimmed_word, filteredWord, StringComparison.OrdinalIgnoreCase))
+                    {
+                        isFiltered = true; //if filtered word matches then mark it as ignored.
+                        break; 
+                    }
+                }
+                //4. however if its not there is a word unfiltered then keep the word.
+                //example: "Can", "you", "explain", "Phishing?" 
+                // three words are filtered above so keep the word "phishing"
+                if (!isFiltered)
+                {
+                    
+                    importantWords.Add(trimmed_word); 
                 }
             }
 
-            //now lets continue checking if the word is in our hashet
+            // 5. Check important words against our array where keywords are 
             foreach (string word in importantWords)
             {
-                //if the keyword from the dictionary is included in the word typed.
-                if (key_words_in_dictionary.ContainsKey(word))
+                //loop through each word in the array 
+                foreach (KeyValue keyvalue in keyWordsInArray)
                 {
-                    //then the output associated with the keyword should be returned
-                    return key_words_in_dictionary[word];
+                    //making the matched cases insensitive
+                    if (string.Equals(word, keyvalue.Key, StringComparison.OrdinalIgnoreCase))
+                    {
+                        //once there is a match then return the answer
+                        return keyvalue.Value;
+                    }
                 }
             }
-            //error handling
+            // Error handling
             Console.ForegroundColor = ConsoleColor.Red;
             return "ask something relevant to the topics mentioned above";
-            
         }
     }
+
+// ArrayList is just a list of objects—it doesn’t have built-in key-value pairing like Dictionary.
+//To store and retrieve answers based on keywords, we need a way to link a keyword(e.g., "Phishing") to its answer
+//The KeyValue class provides this structure, allowing us to mimic a dictionary.
+    public class KeyValue
+    {
+        // Property to store the keyword (e.g., "Password")
+        //will be set in the constructor
+        public string Key { get; }  
+
+        // Property to store the full answer text
+        //will be set in constructor
+        public string Value { get; } 
+
+        // Constructor: Sets the key and value when created
+        public KeyValue(string key, string value)
+        {
+            Key = key;      // Assign keyword
+            Value = value;  // Assign answer
+        }
+    
 }
+}
+
+
+
+
+
+
+
+/*name: .NET Framework CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: '4.7.2'
+   - name: Restore dependencies
+      run: nuget restore
+
+    - name: Build solution
+      run: msbuild /p:Configuration=Release
+
+    - name: Run tests
+      run: |
+        vstest.console.exe **\*test*.dll
+      continue-on-error: true
+
+    - name: Check code formatting
+      run: dotnet format --check
+      continue-on-error: true
+
+    - name: Report build status
+      if: failure()
+      run: echo "Build failed"
+      if: success()
+      run: echo "Build succeeded"
+
+ */

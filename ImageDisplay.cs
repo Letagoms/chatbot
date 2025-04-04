@@ -82,18 +82,48 @@ Human eye sensitivity*/
                                           pixelcolor.G * 0.59 + //green contributes to 59% 
                                           pixelcolor.B * 0.11); //blue contributes 11%
 
-                    
+                    // We're essentially stretching the 0-255 brightness range to fit our 10 characters
+                    // Formula breakdown: (brightness or max_brightness) × (number_of_characters - 1)
                     int index = grayValue * (asciiChars.Length - 1) / 255;
-                    
+
+                    // Add the corresponding ASCII character from our gradient string
+                    // Our asciiChars are ordered from visually heaviest (@) to lightest (space)
                     asciiArt.Append(asciiChars[index]);
                 }
-                
+                // After finishing each row of pixels...
+                // We add a newline to start the next row of our ASCII image
+                // Environment.NewLine handles different OS line endings (\n on Unix, \r\n on Windows)
                 asciiArt.Append(Environment.NewLine);
             }
+            // Finally, we convert our constructed ASCII art to a string
+            // This contains the complete text representation of our image
+            // Ready to be printed to the console all at once
             return asciiArt.ToString();
         }
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /*
  * The Big Picture
 This program takes a digital image and transforms it into a picture made entirely of text characters that you can view in a console/terminal. It works by converting different brightness levels in the image to different ASCII characters that visually represent those brightness levels
