@@ -19,22 +19,15 @@ namespace Part1
                 System.Threading.Thread.Sleep(delayPerChar);
             }
         }
+        public void TypeWriterEffectImage(string message, int delayPerChar = 1)
+        {
+            //for each character in the message add a typeWriter effect.
+            foreach (char character in message)
+            {
+                Console.Write(character);
+                System.Threading.Thread.Sleep(delayPerChar);
+            }
+        }
 
     }
 }
-/*
- * 
-
-        public void TypeWriterEffect(string message, int delay, ConsoleColor color)
-        {
-            Console.ForegroundColor = color;
-            foreach (char c in message)
-            {
-                Console.Write(c);
-                System.Threading.Thread.Sleep(delay);
-            }
-            Console.ResetColor();
-            Console.WriteLine();
-        }
-    }
-}*/

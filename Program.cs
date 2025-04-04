@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Runtime.InteropServices;
 
 namespace Part1
 {
@@ -14,6 +15,8 @@ namespace Part1
         
         private static void Main(string[] args)
         {
+            
+
             voiceGreeting voicegreeting = new voiceGreeting();
             voicegreeting.playAudio();
 
@@ -25,7 +28,7 @@ namespace Part1
             ChatBegins.Header_display();
             ChatBegins.introduction();
 
-            //Read ME!!!
+//read me
             
         }
     }

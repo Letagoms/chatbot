@@ -13,6 +13,7 @@ namespace Part1
     {
         public void LoadImage()
         {
+            
             //if the image file does not exist, display a message signaling that the image does not exist
             Console.ForegroundColor = ConsoleColor.Blue;
             string imagepath = "C:\\Users\\RC_Student_lab\\source\\repos\\Part1\\cyberlogo.jpg";

@@ -13,6 +13,7 @@ namespace Part1
 
             //welcome header
         {
+
             Console.ForegroundColor = ConsoleColor.Green;
 
             Console.WriteLine("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
@@ -23,11 +24,22 @@ namespace Part1
             Console.ResetColor();
             Console.WriteLine();
 
-           //introductory message
-            Console.WriteLine("I'm CyberSurfer your Cyber Security expert.");
-            Console.WriteLine("I can explain to you topics pertaining password safety, phishing, and safety browsing.\n");
-            Console.WriteLine("***Type 'exit' to quit ***\n");
-            Console.WriteLine("let's begin the chat.\n");
+extraEffects effects = new extraEffects();
+            //introductory message
+            effects.TypeWriterEffect("                        CyberSurfer Your Cyber Security expert.                       \n");
+            Console.WriteLine("-----------------------------------------------------------------------------------------");
+            Console.WriteLine();
+            effects.TypeWriterEffect("I can explain to you topics pertaining ");
+            Console.ForegroundColor = ConsoleColor.Magenta;
+            effects.TypeWriterEffect("password safety, phishing, and safety browsing. \n");
+
+            Console.ForegroundColor= ConsoleColor.White;
+            Console.WriteLine("-----------------------------------------------------------------------------------------");
+            Console.WriteLine();
+            Console.ForegroundColor= ConsoleColor.Red;
+            effects.TypeWriterEffect("                             ***Type 'exit' to quit ***                                \n");
+            Console.ForegroundColor = ConsoleColor.White;
+            effects.TypeWriterEffect("let's begin the chat...\n");
         }
 
         public void introduction()
@@ -39,9 +51,9 @@ namespace Part1
             Console.ForegroundColor = ConsoleColor.Blue;
             Console.Write(Chatbot);
             Console.ForegroundColor = ConsoleColor.White;
-
+            extraEffects Effects = new extraEffects();
             //the chatbot prompts the user for their name
-            Console.Write(": " + "Kindly share your name: ");
+            Effects.TypeWriterEffect(": " + "Kindly share your name: ");
             Console.WriteLine();
 
             
@@ -53,9 +65,9 @@ namespace Part1
             Console.ForegroundColor = ConsoleColor.Blue;
             Console.Write(Chatbot);
             Console.ForegroundColor = ConsoleColor.White;
-            extraEffects Effects = new extraEffects();
-            Effects.TypeWriterEffect(": " + "Hey " + User + 
-                " ,ask me about Cyber Security topics such as Password security, Phishing and Safety browsing");
+            
+            Effects.TypeWriterEffect(": " + "Hey " + User +
+                ", ask me about Cyber Security topics such as Password security, Phishing and Safety browsing ");
             
             Console.WriteLine();
             

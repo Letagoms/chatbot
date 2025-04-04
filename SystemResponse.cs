@@ -2,12 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Drawing.Text;
-using System.IO;
-using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
-using static System.Windows.Forms.LinkLabel;
-using System.Windows.Forms;
+
 
 namespace Part1
 {
@@ -24,23 +19,23 @@ namespace Part1
 
             //Password response
             keyWordsInArray.Add(new KeyValue("Password",
-                "Password security is the practice of securing a password from unauthorized access. " +
-                "You can create a strong password by using a combination of letters, numbers and special characters, and by avoiding common words and phrases. " +
-                "You can protect your password by keeping it secure and not sharing it with anyone. " +
+                "Password security is the practice of securing a password from unauthorized access. \n" +
+                "You can create a strong password by using a combination of letters, numbers and special characters, and by avoiding common words and phrases. \n" +
+                "You can protect your password by keeping it secure and not sharing it with anyone. \n" +
                 "If your password is compromised, change it immediately and report it to the relevant authorities."));
 
             //phishing response
             keyWordsInArray.Add(new KeyValue("Phishing",
-                "Phishing is the fraudulent attempt to obtain sensitive information such as usernames, passwords and credit card details. " +
-                "You can identify phishing by looking out for suspicious emails, websites and requests for sensitive information. " +
-                "You can protect yourself from phishing by being cautious of suspicious emails and websites, and by not sharing sensitive information online. " +
+                "Phishing is the fraudulent attempt to obtain sensitive information such as usernames, passwords and credit card details. \n" +
+                "You can identify phishing by looking out for suspicious emails, websites and requests for sensitive information. \n" +
+                "You can protect yourself from phishing by being cautious of suspicious emails and websites, and by not sharing sensitive information online. \n" +
                 "If you receive a phishing email, do not click on any links or download attachments. Report it to your email provider and delete it immediately."));
 
             //password safety response
             keyWordsInArray.Add(new KeyValue("password safety",
-                "You can stay safe online by using secure passwords, keeping your software up to date, and being cautious of suspicious emails and websites. " +
-                "You can protect your personal information online by being cautious of what you share online, and by using privacy settings on social media platforms. " +
-                "If you encounter a suspicious website, do not enter any personal information. Report it to the relevant authorities and leave the website immediately. " +
+                "You can stay safe online by using secure passwords, keeping your software up to date, and being cautious of suspicious emails and websites. \n" +
+                "You can protect your personal information online by being cautious of what you share online, and by using privacy settings on social media platforms. \n" +
+                "If you encounter a suspicious website, do not enter any personal information. Report it to the relevant authorities and leave the website immediately. \n" +
                 "Safety browsing is the practice of ensuring a safe and secure online browsing experience."));
         }
 
@@ -96,47 +91,64 @@ namespace Part1
                     importantWords.Add(trimmed_word); 
                 }
             }
+            //5. hold the word in this array
+            List<string> collects_all_responses = new List<string>();
 
-            // 5. Check important words against our array where keywords are 
+            // 6. Check if every word matches an important word in our array(database)
             foreach (string word in importantWords)
             {
-                //loop through each word in the array 
+                //check if the question 
                 foreach (KeyValue keyvalue in keyWordsInArray)
                 {
                     //making the matched cases insensitive
                     if (string.Equals(word, keyvalue.Key, StringComparison.OrdinalIgnoreCase))
                     {
-                        //once there is a match then return the answer
-                        return keyvalue.Value;
-                    }
-                }
-            }
-            // Error handling
-            Console.ForegroundColor = ConsoleColor.Red;
-            return "ask something relevant to the topics mentioned above";
-        }
-    }
+//if the response does not already contain the key word then add it. if not don't add it so that it does not duplicate
+/*
+ * Without this check, the same answer could appear twice.
+Now: Even if the keyword appears multiple times, the answer is only stored once.*/
+
+if (!collects_all_responses.Contains(keyvalue.Value)) 
+{
+    collects_all_responses.Add(keyvalue.Value);
+         }
+      }
+   }
+}
+
+/*"After checking all words, we look at our list of answers. If the list is not empty then join all answers into a single string.
+Separate each answer with two newlines (\n\n) to create a blank line between them.
+Return the combined result.*/
+if (collects_all_responses.Count > 0)
+{
+return string.Join("\n\n", collects_all_responses); // ⭐ NEW: Joins all responses
+}
+// Error handling
+Console.ForegroundColor = ConsoleColor.Red;
+return " ask something relevant to the topics mentioned above";
+}
+}
 
 // ArrayList is just a list of objects—it doesn’t have built-in key-value pairing like Dictionary.
 //To store and retrieve answers based on keywords, we need a way to link a keyword(e.g., "Phishing") to its answer
 //The KeyValue class provides this structure, allowing us to mimic a dictionary.
-    public class KeyValue
-    {
-        // Property to store the keyword (e.g., "Password")
-        //will be set in the constructor
-        public string Key { get; }  
+public class KeyValue
+{
+// Property to store the keyword (e.g., "Password")
+//will be set in the constructor
+public string Key { get; }  
 
-        // Property to store the full answer text
-        //will be set in constructor
-        public string Value { get; } 
+// Property to store the full answer text
+//will be set in constructor
+public string Value { get; } 
 
-        // Constructor: Sets the key and value when created
-        public KeyValue(string key, string value)
-        {
-            Key = key;      // Assign keyword
-            Value = value;  // Assign answer
-        }
-    
+// Constructor: Sets the key and value when created
+public KeyValue(string key, string value)
+{
+Key = key;      // Assign keyword
+Value = value;  // Assign answer
+}
+
 }
 }
 
@@ -149,42 +161,42 @@ namespace Part1
 /*name: .NET Framework CI
 
 on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+push:
+branches: [ main ]
+pull_request:
+branches: [ main ]
 
 jobs:
-  build:
-    runs-on: windows-latest
+build:
+runs-on: windows-latest
 
-    steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
+steps:
+- name: Checkout repository
+uses: actions/checkout@v2
 
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: '4.7.2'
-   - name: Restore dependencies
-      run: nuget restore
+- name: Setup .NET
+uses: actions/setup-dotnet@v1
+with:
+dotnet-version: '4.7.2'
+- name: Restore dependencies
+run: nuget restore
 
-    - name: Build solution
-      run: msbuild /p:Configuration=Release
+- name: Build solution
+run: msbuild /p:Configuration=Release
 
-    - name: Run tests
-      run: |
-        vstest.console.exe **\*test*.dll
-      continue-on-error: true
+- name: Run tests
+run: |
+vstest.console.exe **\*test*.dll
+continue-on-error: true
 
-    - name: Check code formatting
-      run: dotnet format --check
-      continue-on-error: true
+- name: Check code formatting
+run: dotnet format --check
+continue-on-error: true
 
-    - name: Report build status
-      if: failure()
-      run: echo "Build failed"
-      if: success()
-      run: echo "Build succeeded"
+- name: Report build status
+if: failure()
+run: echo "Build failed"
+if: success()
+run: echo "Build succeeded"
 
- */
+*/
