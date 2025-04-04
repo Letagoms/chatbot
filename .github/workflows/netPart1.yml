@@ -1,0 +1,28 @@
+name: .NET CI
+
+on:
+  push:
+    branches: [ "main" ]  # Runs on pushes to main
+  pull_request:
+    branches: [ "main" ]  # Runs on PRs to main
+
+jobs:
+  build:
+    runs-on: windows-latest  # Windows for Visual Studio projects
+
+    steps:
+    - uses: actions/checkout@v4  # Checks out your code
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: '8.0.x'  # Change to your .NET version
+
+    - name: Restore dependencies
+      run: dotnet restore
+
+    - name: Build
+      run: dotnet build --configuration Release --no-restore
+
+    - name: Test
+      run: dotnet test --no-build --verbosity normal
