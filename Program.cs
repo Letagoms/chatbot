@@ -28,7 +28,7 @@ namespace Part1
             ChatBegins.Header_display();
             ChatBegins.introduction();
 
-//read me
+
             
         }
     }
