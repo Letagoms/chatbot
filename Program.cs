@@ -24,9 +24,9 @@ namespace Part1
             imageDisplay.LoadImage();
 
 
-            chatbegins ChatBegins = new chatbegins();
-            ChatBegins.Header_display();
-            ChatBegins.introduction();
+            UserInterface UI = new UserInterface();
+            UI.Header_display();
+            UI.delegates();
 
 
             

@@ -45,7 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="chatbegins.cs" />
+    <Compile Include="UserInterface.cs" />
     <Compile Include="extraEffects.cs" />
     <Compile Include="ImageDisplay.cs" />
     <Compile Include="Program.cs" />
